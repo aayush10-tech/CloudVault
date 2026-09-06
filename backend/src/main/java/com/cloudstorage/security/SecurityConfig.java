@@ -74,15 +74,19 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // Public shared links
-                .requestMatchers(
-                    "/api/public/**"
-                ).permitAll()
+.requestMatchers(
+    "/api/public/**"
+).permitAll()
 
-                // All application APIs require JWT
-                .requestMatchers(
-                    "/api/**"
-                ).authenticated()
+// Health check must be public for Render
+.requestMatchers(
+    "/api/health"
+).permitAll()
 
+// All application APIs require JWT
+.requestMatchers(
+    "/api/**"
+).authenticated()
                 // Everything else
                 .anyRequest().permitAll()
             )
