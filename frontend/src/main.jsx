@@ -30,7 +30,7 @@ const API =
   (import.meta.env.VITE_API_URL || "http://localhost:8081/api").replace(/\/$/, "");
 
 const req = async (path, opts = {}) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const headers = {
     ...(opts.headers || {}),
@@ -244,7 +244,7 @@ function Auth({ onLogin }) {
         body: JSON.stringify(form),
       });
 
-      localStorage.setItem("token", data.token);
+      sessionStorage.setItem("token", data.token);
 
       onLogin(data.user);
     } catch (error) {
@@ -901,14 +901,14 @@ function App() {
     useState(null);
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!sessionStorage.getItem("token")) {
       return;
     }
 
     req("/auth/me")
       .then(setUser)
       .catch(() => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
       });
   }, []);
 
@@ -970,7 +970,7 @@ function App() {
   }
 
   const logout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setUser(null);
   };
 
